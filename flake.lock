@@ -203,7 +203,28 @@
         "home-manager": "home-manager",
         "llm-agents": "llm-agents",
         "nixpkgs": "nixpkgs_4",
+        "rules": "rules",
         "sops-nix": "sops-nix"
+      }
+    },
+    "rules": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1770780615,
+        "narHash": "sha256-/jNHo0XsOp6ITmajrvXOwiQh9Mv1Nje2BxbnCu6/7e0=",
+        "owner": "shirok1",
+        "repo": "rules.nix",
+        "rev": "dbfff45fe3bbb7e592435f0c62b703a2886bb6aa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shirok1",
+        "repo": "rules.nix",
+        "type": "github"
       }
     },
     "sops-nix": {

@@ -9,6 +9,8 @@
     catppuccin.url = "github:catppuccin/nix";
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    rules.url = "github:shirok1/rules.nix";
+    rules.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     {
@@ -19,6 +21,7 @@
       home-manager,
       catppuccin,
       sops-nix,
+      rules,
     }@inputs:
     let
       forAllSystems = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed;
@@ -27,6 +30,7 @@
           (final: prev: {
             shirok1 = import ./default.nix { pkgs = final; };
             llm-agents = inputs.llm-agents.packages.${final.stdenv.hostPlatform.system};
+            rules = inputs.rules.packages.${final.stdenv.hostPlatform.system};
           })
         ];
       };
