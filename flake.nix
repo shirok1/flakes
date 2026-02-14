@@ -36,30 +36,20 @@
       {
         imports = [
           # Optional: use external flake logic, e.g.
-          # inputs.foo.flakeModules.default
+          inputs.flake-parts.flakeModules.easyOverlay
         ];
         flake =
           # Put your original flake attributes here.
           let
-            overlays.shirok1 =
-              final: prev:
-              withSystem prev.stdenv.hostPlatform.system (
-                { config, ... }:
-                {
-                  shirok1 = config.packages;
-                }
-              );
             pkgsOverlays = {
               nixpkgs.overlays = [
-                overlays.shirok1
+                self.overlays.default
                 inputs.llm-agents.overlays.default
                 inputs.rules.overlays.default
               ];
             };
           in
           {
-            inherit overlays;
-
             nixosModules = import ./modules;
 
             nixosConfigurations.nixo6n = nixpkgs.lib.nixosSystem {
@@ -139,6 +129,8 @@
               inherit system;
               config.allowUnfree = true;
             };
+
+            overlayAttrs.shirok1 = config.packages;
 
             packages = pkgs.lib.filesystem.packagesFromDirectoryRecursive {
               inherit (pkgs) callPackage;
