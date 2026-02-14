@@ -11,6 +11,7 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     rules.url = "github:shirok1/rules.nix";
     rules.inputs.nixpkgs.follows = "nixpkgs";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
   outputs =
     {
@@ -22,93 +23,111 @@
       catppuccin,
       sops-nix,
       rules,
+      flake-parts,
     }@inputs:
-    let
-      forAllSystems = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed;
-      pkgsOverlays = {
-        nixpkgs.overlays = [
-          (final: prev: {
-            shirok1 = import ./default.nix { pkgs = final; };
-            llm-agents = inputs.llm-agents.packages.${final.stdenv.hostPlatform.system};
-            rules = inputs.rules.packages.${final.stdenv.hostPlatform.system};
-          })
+    # https://flake.parts/module-arguments.html
+    flake-parts.lib.mkFlake { inherit inputs; } (
+      top@{
+        config,
+        withSystem,
+        moduleWithSystem,
+        ...
+      }:
+      {
+        imports = [
+          # Optional: use external flake logic, e.g.
+          # inputs.foo.flakeModules.default
         ];
-      };
-    in
-    {
-      legacyPackages = forAllSystems (
-        system:
-        import ./default.nix {
-          pkgs = import nixpkgs {
-            inherit system;
-          };
-        }
-      );
-      packages = forAllSystems (
-        system: nixpkgs.lib.filterAttrs (_: v: nixpkgs.lib.isDerivation v) self.legacyPackages.${system}
-      );
-      nixosModules = import ./modules;
-
-      nixosConfigurations.nixo6n = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          pkgsOverlays
-
-          ./nixos/machines/o6n/configuration.nix
-
-          home-manager.nixosModules.home-manager
+        flake =
+          # Put your original flake attributes here.
+          let
+            pkgsOverlays = {
+              nixpkgs.overlays = [
+                (final: prev: {
+                  shirok1 = import ./default.nix { pkgs = final; };
+                  llm-agents = inputs.llm-agents.packages.${final.stdenv.hostPlatform.system};
+                  rules = inputs.rules.packages.${final.stdenv.hostPlatform.system};
+                })
+              ];
+            };
+          in
           {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.shiroki = {
-              imports = [
-                ./home.nix
-                catppuccin.homeModules.catppuccin
+            overlays = import ./overlays;
+            nixosModules = import ./modules;
+
+            nixosConfigurations.nixo6n = nixpkgs.lib.nixosSystem {
+              specialArgs = { inherit inputs; };
+              modules = [
+                pkgsOverlays
+
+                ./nixos/machines/o6n/configuration.nix
+
+                home-manager.nixosModules.home-manager
+                {
+                  home-manager.useGlobalPkgs = true;
+                  home-manager.useUserPackages = true;
+                  home-manager.users.shiroki = {
+                    imports = [
+                      ./home.nix
+                      catppuccin.homeModules.catppuccin
+                    ];
+                  };
+
+                  # Optionally, use home-manager.extraSpecialArgs to pass
+                  # arguments to home.nix
+                  home-manager.extraSpecialArgs = {
+                    machine = "o6n";
+                  };
+                }
+
+                inputs.daeuniverse.nixosModules.dae
+                inputs.daeuniverse.nixosModules.daed
+
+                catppuccin.nixosModules.catppuccin
+                {
+                  catppuccin.cache.enable = true;
+                }
+
+                sops-nix.nixosModules.sops
+                {
+                  sops = {
+                    environment = {
+                      SOPS_AGE_SSH_PRIVATE_KEY_FILE = "/etc/ssh/ssh_host_ed25519_key";
+                    };
+                  };
+                }
+
+                self.nixosModules.qbittorrent-clientblocker
+                self.nixosModules.snell-server
               ];
             };
 
-            # Optionally, use home-manager.extraSpecialArgs to pass
-            # arguments to home.nix
-            home-manager.extraSpecialArgs = {
-              machine = "o6n";
+            nixosConfigurations.nixopi5 = nixpkgs.lib.nixosSystem {
+              specialArgs = { inherit inputs; };
+              modules = [
+                pkgsOverlays
+
+                ./nixos/machines/opi5/configuration.nix
+
+                inputs.daeuniverse.nixosModules.dae
+                inputs.daeuniverse.nixosModules.daed
+
+                self.nixosModules.qbittorrent-clientblocker
+                self.nixosModules.snell-server
+              ];
             };
-          }
-
-          inputs.daeuniverse.nixosModules.dae
-          inputs.daeuniverse.nixosModules.daed
-
-          catppuccin.nixosModules.catppuccin
+          };
+        systems =
+          # systems for which you want to build the `perSystem` attributes
+          nixpkgs.lib.systems.flakeExposed;
+        perSystem =
+          { config, pkgs, ... }:
           {
-            catppuccin.cache.enable = true;
-          }
-
-          sops-nix.nixosModules.sops
-          {
-            sops = {
-              environment = {
-                SOPS_AGE_SSH_PRIVATE_KEY_FILE = "/etc/ssh/ssh_host_ed25519_key";
-              };
+            packages = pkgs.lib.filesystem.packagesFromDirectoryRecursive {
+              inherit (pkgs) callPackage;
+              directory = ./pkgs;
             };
-          }
-
-          self.nixosModules.qbittorrent-clientblocker
-          self.nixosModules.snell-server
-        ];
-      };
-
-      nixosConfigurations.nixopi5 = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          pkgsOverlays
-
-          ./nixos/machines/opi5/configuration.nix
-
-          inputs.daeuniverse.nixosModules.dae
-          inputs.daeuniverse.nixosModules.daed
-
-          self.nixosModules.qbittorrent-clientblocker
-          self.nixosModules.snell-server
-        ];
-      };
-    };
+          };
+      }
+    );
 }
