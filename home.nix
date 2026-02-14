@@ -65,6 +65,8 @@
 
   programs.gitui.enable = true;
 
+  programs.helix.enable = true;
+
   programs.zellij.enable = true;
 
   programs.zoxide = {
