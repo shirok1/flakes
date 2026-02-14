@@ -41,10 +41,18 @@
         flake =
           # Put your original flake attributes here.
           let
+            overlays.shirok1 =
+              final: prev:
+              withSystem prev.stdenv.hostPlatform.system (
+                { config, ... }:
+                {
+                  shirok1 = config.packages;
+                }
+              );
             pkgsOverlays = {
               nixpkgs.overlays = [
+                overlays.shirok1
                 (final: prev: {
-                  shirok1 = import ./default.nix { pkgs = final; };
                   llm-agents = inputs.llm-agents.packages.${final.stdenv.hostPlatform.system};
                   rules = inputs.rules.packages.${final.stdenv.hostPlatform.system};
                 })
@@ -52,7 +60,8 @@
             };
           in
           {
-            overlays = import ./overlays;
+            inherit overlays;
+
             nixosModules = import ./modules;
 
             nixosConfigurations.nixo6n = nixpkgs.lib.nixosSystem {
@@ -121,8 +130,18 @@
           # systems for which you want to build the `perSystem` attributes
           nixpkgs.lib.systems.flakeExposed;
         perSystem =
-          { config, pkgs, ... }:
           {
+            config,
+            pkgs,
+            system,
+            ...
+          }:
+          {
+            _module.args.pkgs = import self.inputs.nixpkgs {
+              inherit system;
+              config.allowUnfree = true;
+            };
+
             packages = pkgs.lib.filesystem.packagesFromDirectoryRecursive {
               inherit (pkgs) callPackage;
               directory = ./pkgs;
