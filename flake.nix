@@ -52,10 +52,8 @@
             pkgsOverlays = {
               nixpkgs.overlays = [
                 overlays.shirok1
-                (final: prev: {
-                  llm-agents = inputs.llm-agents.packages.${final.stdenv.hostPlatform.system};
-                  rules = inputs.rules.packages.${final.stdenv.hostPlatform.system};
-                })
+                inputs.llm-agents.overlays.default
+                inputs.rules.overlays.default
               ];
             };
           in
