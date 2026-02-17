@@ -109,6 +109,7 @@
                 inputs.daeuniverse.nixosModules.dae
                 inputs.daeuniverse.nixosModules.daed
 
+                self.nixosModules.msd-lite
                 self.nixosModules.qbittorrent-clientblocker
                 self.nixosModules.snell-server
               ];
