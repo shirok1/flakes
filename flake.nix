@@ -106,8 +106,31 @@
 
                 ./nixos/machines/opi5/configuration.nix
 
+                home-manager.nixosModules.home-manager
+                {
+                  home-manager.useGlobalPkgs = true;
+                  home-manager.useUserPackages = true;
+                  home-manager.users.shiroki = {
+                    imports = [
+                      ./home.nix
+                      catppuccin.homeModules.catppuccin
+                    ];
+                  };
+
+                  # Optionally, use home-manager.extraSpecialArgs to pass
+                  # arguments to home.nix
+                  home-manager.extraSpecialArgs = {
+                    machine = "opi5";
+                  };
+                }
+
                 inputs.daeuniverse.nixosModules.dae
                 inputs.daeuniverse.nixosModules.daed
+
+                catppuccin.nixosModules.catppuccin
+                {
+                  catppuccin.cache.enable = true;
+                }
 
                 self.nixosModules.msd-lite
                 self.nixosModules.qbittorrent-clientblocker
