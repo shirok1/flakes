@@ -27,7 +27,7 @@ in
     assertions = [ ];
 
     boot.extraModulePackages = [
-      (config.boot.kernelPackages.callPackage ../pkgs/tcp-brutal.nix { })
+      (config.boot.kernelPackages.callPackage ../_pkgs/tcp-brutal.nix { })
     ];
   };
 }
