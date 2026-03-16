@@ -6,12 +6,10 @@
   jdk25_headless,
   ...
 }:
-let
+
+stdenv.mkDerivation rec {
   pname = "peerbanhelper";
   version = "9.2.3";
-in
-stdenv.mkDerivation {
-  inherit pname version;
 
   src = pkgs.fetchzip {
     url = "https://github.com/PBH-BTN/PeerBanHelper/releases/download/v${version}/PeerBanHelper_${version}.zip";
