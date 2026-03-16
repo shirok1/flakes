@@ -160,6 +160,13 @@
               inherit (pkgs) callPackage;
               directory = ./pkgs;
             };
+
+            # Expose tcp-brutal so users can manually build and test it against different kernels.
+            # Not placed in pkgs/ to avoid it being automatically discovered and breaking CI checks.
+            legacyPackages = {
+              tcp-brutal = pkgs.linuxPackages.callPackage ./_pkgs/tcp-brutal.nix { };
+              tcp-brutal-latest = pkgs.linuxPackages_latest.callPackage ./_pkgs/tcp-brutal.nix { };
+            };
           };
       }
     );
