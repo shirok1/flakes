@@ -24,6 +24,8 @@ stdenv.mkDerivation rec {
     stdenv.cc.cc.lib
   ];
 
+  autoPatchelfIgnoreMissingDeps = [ "*" ];
+
   installPhase = ''
     mkdir -p $out/share/java/libraries
 
