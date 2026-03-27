@@ -478,7 +478,6 @@
 
   services.qbittorrent-clientblocker = {
     enable = true;
-    package = pkgs.shirok1.qbittorrent-clientblocker;
     settings = {
       checkUpdate = false;
       clientType = "qBittorrent";
@@ -489,7 +488,6 @@
 
   services.snell-server = {
     enable = true;
-    package = pkgs.shirok1.snell-server;
     settings = {
       listen = "0.0.0.0:13831";
       ipv6 = true;
