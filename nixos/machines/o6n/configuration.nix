@@ -127,6 +127,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.shiroki = {
     isNormalUser = true;
+    linger = true;
     extraGroups = [
       "wheel"
       "audio"
@@ -507,6 +508,16 @@
     jvmOptions = [
       "-cp ${pkgs.jdk25_headless}/share/java/libraries/jna-5.18.1.jar"
     ];
+  };
+
+  systemd.user.services.mihomo = {
+    enable = true;
+    after = [ "network.target" ];
+    wantedBy = [ "default.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = lib.getExe pkgs.mihomo;
+    };
   };
 
   # Open ports in the firewall.
