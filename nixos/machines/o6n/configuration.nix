@@ -477,7 +477,7 @@
   };
 
   services.qbittorrent-clientblocker = {
-    enable = true;
+    enable = false;
     settings = {
       checkUpdate = false;
       clientType = "qBittorrent";
@@ -500,6 +500,14 @@
   systemd.services.snell-server.serviceConfig.LoadCredential = [
     "psk:${config.sops.secrets."snell/psk".path}"
   ];
+
+  services.peerbanhelper = {
+    enable = true;
+    jrePackage = pkgs.jdk25_headless;
+    jvmOptions = [
+      "-cp ${pkgs.jdk25_headless}/share/java/libraries/jna-5.18.1.jar"
+    ];
+  };
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [

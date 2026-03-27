@@ -2,8 +2,6 @@
   lib,
   stdenv,
   pkgs,
-  makeWrapper,
-  jdk25_headless,
   ...
 }:
 
@@ -16,19 +14,11 @@ stdenv.mkDerivation rec {
     hash = "sha256-ieZxZVrzbY2YckapKDWD5YNFjygibEabG+v4nVbCZvI=";
   };
 
-  nativeBuildInputs = [
-    makeWrapper
-    jdk25_headless
-  ];
-
   installPhase = ''
-    # create the bin directory
-    mkdir -p $out/bin
+    mkdir -p $out/share/java/libraries
 
-    # create a wrapper that will automatically set the classpath
-    # this should be the paths from the dependency derivation
-    makeWrapper ${jdk25_headless}/bin/java $out/bin/${pname} \
-        --add-flags "-cp $src/libraries -jar $src/PeerBanHelper.jar"
+    install -Dm644 $src/libraries/* $out/share/java/libraries
+    install -Dm644 $src/PeerBanHelper.jar $out/share/java
   '';
 
   meta = with lib; {
