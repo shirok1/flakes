@@ -92,7 +92,8 @@
                       {
                         catppuccin.cache.enable = true;
                       }
-                    ] ++ extraModules;
+                    ]
+                    ++ extraModules;
                   };
               in
               {

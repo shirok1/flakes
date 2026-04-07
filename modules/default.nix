@@ -1,4 +1,8 @@
-{ importApply, localFlake, withSystem }:
+{
+  importApply,
+  localFlake,
+  withSystem,
+}:
 
 {
   msd-lite = importApply ./msd-lite.nix { inherit localFlake withSystem; };
