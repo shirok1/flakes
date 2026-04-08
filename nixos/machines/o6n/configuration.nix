@@ -508,6 +508,7 @@
     jvmOptions = [
       "-Djna.library.path=${pkgs.systemdLibs}/lib"
       "--enable-native-access=ALL-UNNAMED"
+      "-XX:+UseStringDeduplication"
       "-XX:+UseCompactObjectHeaders"
       "-XX:+UseZGC -XX:+ZGenerational"
     ];
