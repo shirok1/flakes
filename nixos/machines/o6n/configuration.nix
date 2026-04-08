@@ -93,7 +93,7 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  documentation.man.generateCaches = false;
+  documentation.man.cache.enable = false;
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.settings = {
