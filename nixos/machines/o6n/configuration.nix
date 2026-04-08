@@ -390,6 +390,8 @@
   #   };
   # };
 
+  services.nixseparatedebuginfod2.enable = true;
+
   systemd = {
     packages = [ pkgs.qbittorrent-nox ];
     services."qbittorrent-nox@shiroki" = {
