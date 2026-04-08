@@ -458,7 +458,15 @@
       };
     };
     customComponents = with pkgs.home-assistant-custom-components; [
-      xiaomi_home
+      (xiaomi_home.overrideAttrs (oldAttrs: {
+        # src = inputs.ha-xiaomi-home;
+        src = pkgs.fetchFromGitHub {
+          owner = "XiaoMi";
+          repo = "ha_xiaomi_home";
+          rev = "pull/1658/head";
+          hash = "sha256-DSPNI/o9P2fu7UgbVvEtv7Uj77p5g5xCgAlFTolh/0o=";
+        };
+      }))
     ];
   };
 
