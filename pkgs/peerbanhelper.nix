@@ -1,15 +1,20 @@
 {
   lib,
   stdenv,
-  pkgs,
-  ...
+  fetchFromGitHub,
+  gradle,
+  makeWrapper,
+  nodejs,
+  pnpm_9,
+  pnpmConfigHook,
+  fetchPnpmDeps,
 }:
 
-pkgs.stdenv.mkDerivation rec {
+stdenv.mkDerivation rec {
   pname = "peerbanhelper";
   version = "9.3.10";
 
-  src = pkgs.fetchFromGitHub {
+  src = fetchFromGitHub {
     owner = "PBH-BTN";
     repo = "PeerBanHelper";
     rev = "v${version}";
@@ -17,14 +22,14 @@ pkgs.stdenv.mkDerivation rec {
   };
 
   nativeBuildInputs = [
-    pkgs.gradle
-    pkgs.makeWrapper
-    pkgs.nodejs
-    pkgs.pnpm_9
-    pkgs.pnpmConfigHook
+    gradle
+    makeWrapper
+    nodejs
+    pnpm_9
+    pnpmConfigHook
   ];
 
-  pnpmDeps = pkgs.fetchPnpmDeps {
+  pnpmDeps = fetchPnpmDeps {
     inherit pname version src;
     hash = "sha256-1JQBxJ4UcjXssNTC8veoFqgLpE+R4kRv4wCfewn899E=";
     sourceRoot = "${src.name}/webui";
@@ -34,11 +39,11 @@ pkgs.stdenv.mkDerivation rec {
   pnpmRoot = "webui";
   prePnpmInstall = "pnpm install --no-frozen-lockfile";
 
-  mitmCache = pkgs.gradle.fetchDeps {
-    pkg = pkgs.stdenv.mkDerivation {
+  mitmCache = gradle.fetchDeps {
+    pkg = stdenv.mkDerivation {
       name = "dummy";
       src = src;
-      nativeBuildInputs = [ pkgs.gradle pkgs.makeWrapper pkgs.nodejs pkgs.pnpm_9 pkgs.pnpmConfigHook ];
+      nativeBuildInputs = [ gradle makeWrapper nodejs pnpm_9 pnpmConfigHook ];
       pnpmDeps = pnpmDeps;
       pnpmRoot = pnpmRoot;
       prePnpmInstall = prePnpmInstall;
