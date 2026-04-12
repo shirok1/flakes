@@ -37,7 +37,7 @@ stdenv.mkDerivation rec {
   };
 
   pnpmRoot = "webui";
-  prePnpmInstall = "pnpm config set strict-ssl false && pnpm install --no-frozen-lockfile";
+  prePnpmInstall = "pnpm config set strict-ssl false && npm config set strict-ssl false && NODE_TLS_REJECT_UNAUTHORIZED=0 pnpm install --no-frozen-lockfile";
 
   mitmCache = gradle.fetchDeps {
     pkg = stdenv.mkDerivation {
