@@ -336,7 +336,7 @@
 
   services.komga = {
     enable = true;
-    port = 4568;
+    settings.server.port = 4568;
     openFirewall = true;
   };
 
