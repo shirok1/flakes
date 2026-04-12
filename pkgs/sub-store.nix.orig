@@ -34,6 +34,8 @@ let
 
     src = backendSrc;
 
+    sourceRoot = "${finalAttrs.src.name}/backend";
+
     nativeBuildInputs = [
       nodejs_22
       pnpm_9
@@ -42,6 +44,7 @@ let
 
     pnpmDeps = fetchPnpmDeps {
       inherit (finalAttrs) pname version src;
+      sourceRoot = "${finalAttrs.src.name}/backend";
       pnpm = pnpm_9;
       fetcherVersion = 3;
       hash = "sha256-FeEIyApuBzIW0SYEQBueDkSqdu50smqTEzjSndJ5l00=";

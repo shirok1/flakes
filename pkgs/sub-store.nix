@@ -36,6 +36,8 @@ let
 
     sourceRoot = "${finalAttrs.src.name}/backend";
 
+    pnpmInstallFlags = [ "--no-frozen-lockfile" ];
+
     nativeBuildInputs = [
       nodejs_22
       pnpm_9
@@ -45,6 +47,7 @@ let
     pnpmDeps = fetchPnpmDeps {
       inherit (finalAttrs) pname version src;
       sourceRoot = "${finalAttrs.src.name}/backend";
+      pnpmInstallFlags = [ "--no-frozen-lockfile" ];
       pnpm = pnpm_9;
       fetcherVersion = 3;
       hash = "sha256-FeEIyApuBzIW0SYEQBueDkSqdu50smqTEzjSndJ5l00=";
