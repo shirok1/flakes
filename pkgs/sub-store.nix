@@ -17,14 +17,14 @@ let
     owner = "sub-store-org";
     repo = "Sub-Store";
     rev = subStoreVersion;
-    hash = "sha256-gnr2oJ955yvzgVLJY9VrD0bm+jzBX6bLUWYIuQudly4=";
+    hash = "sha256-wYb3jIoyNn+bHTb3Bab4amRoPZt9Fe4SuWb0sHgMCzM=";
   };
 
   frontendSrc = fetchFromGitHub {
     owner = "sub-store-org";
     repo = "Sub-Store-Front-End";
     rev = frontEndVersion;
-    hash = "sha256-IimSK1p9UWr6DrzEP1seG/y1vj0rl8FpCJB5P/u9mOo=";
+    hash = "sha256-K7tAqbM7cQpmZmRQFwJhpiesUoPzvXEKu5q0pYsj+ZA=";
   };
 
   # Use fetchPnpmDeps since it is the standard for packaging pnpm derivations
