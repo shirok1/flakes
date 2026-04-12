@@ -300,7 +300,7 @@
   };
 
   services.qbittorrent-clientblocker = {
-    enable = true;
+    enable = false;
     settings = {
       checkUpdate = false;
       clientType = "qBittorrent";
