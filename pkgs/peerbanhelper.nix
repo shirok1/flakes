@@ -1,31 +1,105 @@
 {
   lib,
   stdenv,
-  pkgs,
-  ...
+  fetchFromGitHub,
+  gradle,
+  makeWrapper,
+  nodejs,
+  pnpm_9,
+  pnpmConfigHook,
+  fetchPnpmDeps,
 }:
 
-stdenv.mkDerivation rec {
-  pname = "peerbanhelper";
+let
   version = "9.3.10";
-
-  src = pkgs.fetchzip {
-    url = "https://github.com/PBH-BTN/PeerBanHelper/releases/download/v${version}/PeerBanHelper_${version}.zip";
-    hash = "sha256-H/F1O+SJud6buCYIDVKtwyDmH1MMIZMjx5UsuDYn0FY=";
+  src = fetchFromGitHub {
+    owner = "PBH-BTN";
+    repo = "PeerBanHelper";
+    rev = "v${version}";
+    hash = "sha256-8QakLztjyIhPfdaPAcL/+ZNzcir4LSzYTwrG8e8IpE8=";
   };
 
-  installPhase = ''
-    mkdir -p $out/share/java/libraries
+  webui = stdenv.mkDerivation {
+    pname = "peerbanhelper-webui";
+    inherit version src;
 
-    install -Dm644 $src/libraries/* $out/share/java/libraries
-    install -Dm644 $src/PeerBanHelper.jar $out/share/java
+    sourceRoot = "${src.name}/webui";
+
+    nativeBuildInputs = [
+      nodejs
+      pnpm_9
+      pnpmConfigHook
+    ];
+
+    pnpmDeps = fetchPnpmDeps {
+      pname = "peerbanhelper-webui";
+      inherit version src;
+      hash = "";
+      sourceRoot = "${src.name}/webui";
+      fetcherVersion = 3;
+    };
+
+    pnpmRoot = ".";
+
+    buildPhase = ''
+      runHook preBuild
+      pnpm run build
+      runHook postBuild
+    '';
+
+    installPhase = ''
+      runHook preInstall
+      mkdir -p $out
+      cp -r dist/* $out/
+      runHook postInstall
+    '';
+  };
+in
+stdenv.mkDerivation rec {
+  pname = "peerbanhelper";
+  inherit version src;
+
+  nativeBuildInputs = [
+    gradle
+    makeWrapper
+  ];
+
+  mitmCache = gradle.fetchDeps {
+    pkg = stdenv.mkDerivation {
+      name = "dummy";
+      src = src;
+      nativeBuildInputs = [ gradle makeWrapper ];
+    };
+    data = ./deps.json;
+  };
+
+  buildPhase = ''
+    runHook preBuild
+
+    # copy webui dist to resources
+    mkdir -p src/main/resources/static
+    cp -r ${webui}/* src/main/resources/static/
+
+    # build jar
+    gradle build -x test --no-daemon
+
+    runHook postBuild
+  '';
+
+  installPhase = ''
+    runHook preInstall
+
+    mkdir -p $out/share/java/libraries
+    cp build/libs/PeerBanHelper*.jar $out/share/java/PeerBanHelper.jar
+
+    runHook postInstall
   '';
 
   meta = with lib; {
     description = "Automatically block unwanted, leeches and abnormal BT peers with support for customized and cloud rules.";
     homepage = "https://github.com/PBH-BTN/PeerBanHelper";
     license = licenses.gpl3Only;
-    sourceProvenance = [ sourceTypes.binaryBytecode ];
+    sourceProvenance = [ sourceTypes.fromSource ];
     mainProgram = pname;
   };
 }
