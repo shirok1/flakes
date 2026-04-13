@@ -23,6 +23,8 @@ let
     pname = "peerbanhelper-webui";
     inherit version src;
 
+    sourceRoot = "${src.name}/webui";
+
     nativeBuildInputs = [
       nodejs
       pnpm_9
@@ -32,21 +34,15 @@ let
     pnpmDeps = fetchPnpmDeps {
       pname = "peerbanhelper-webui";
       inherit version src;
-      hash = "sha256-1JQBxJ4UcjXssNTC8veoFqgLpE+R4kRv4wCfewn899E=";
+      hash = "";
       sourceRoot = "${src.name}/webui";
-      fetcherVersion = 1;
+      fetcherVersion = 3;
     };
 
-    pnpmRoot = "webui";
-    # Force npm config locally inside the derivation sandbox to ignore strict SSL
-    prePnpmInstall = ''
-      pnpm config set strict-ssl false
-      npm config set strict-ssl false
-    '';
+    pnpmRoot = ".";
 
     buildPhase = ''
       runHook preBuild
-      cd webui
       pnpm run build
       runHook postBuild
     '';
