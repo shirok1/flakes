@@ -6,7 +6,7 @@
   pnpm_9,
   fetchPnpmDeps,
   pnpmConfigHook,
-  writeShellApplication
+  writeShellApplication,
 }:
 
 let
