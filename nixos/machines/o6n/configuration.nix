@@ -531,7 +531,7 @@
     enable = true;
     settings = {
       listen = "0.0.0.0:13831";
-      ipv6 = true;
+      dns-ip-preference = "default";
     };
     sops.psk = "snell/psk";
   };
@@ -571,13 +571,13 @@
     8080
     8234
     9000
-    13831
+    13831 # Snell
     21064 # Home Assistant HomeKit Bridge
     1400 # Home Assistant Sonos
     1443 # Home Assistant Sonos
   networking.firewall.allowedUDPPorts = [
     5970
-    13831
+    13831 # Snell
   ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
