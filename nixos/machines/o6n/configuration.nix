@@ -125,6 +125,9 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
+  boot.binfmt.box64 = {
+    enable = true;
+  };
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.shiroki = {
     isNormalUser = true;
@@ -160,6 +163,29 @@
       gitui
       dive
 
+      (writeShellScriptBin "FutuOpenD" ''
+        export LD_LIBRARY_PATH="${
+          lib.makeLibraryPath [
+            # libgcc.lib
+            zlib
+            curl
+            openssl
+          ]
+        }''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+        ${box64}/bin/box64 ${shirok1-x86_64.futu-opend.override { ignoreCurl = true; }}/bin/FutuOpenD "$@"
+      '')
+      (writeShellScriptBin "stata-mp" ''
+        export LD_LIBRARY_PATH="${
+          lib.makeLibraryPath [
+            zlib
+            curl
+            ncurses
+          ]
+        }''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+
+        ${box64}/bin/box64 ${shirok1-x86_64.stata.override { ignoreCurl = true; }}/stata-mp "$@"
+      '')
       llm-agents.codex
     ];
   };
