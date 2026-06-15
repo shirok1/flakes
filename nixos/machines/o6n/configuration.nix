@@ -577,11 +577,14 @@
     5970
     8080
     8234
+    9898 # PeerBanHelper
     9000
     13831 # Snell
     21064 # Home Assistant HomeKit Bridge
     1400 # Home Assistant Sonos
     1443 # Home Assistant Sonos
+    17650 # mihomo
+  ];
   networking.firewall.allowedUDPPorts = [
     5970
     13831 # Snell
