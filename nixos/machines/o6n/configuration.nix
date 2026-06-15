@@ -148,11 +148,16 @@
       nurl
       nix-init
       gh
-      (fastfetch.override {
-        brightnessSupport = false;
-        waylandSupport = false;
-        x11Support = false;
-        xfceSupport = false;
+      (fastfetch.minimal.override {
+        audioSupport = true;
+        dbusSupport = true;
+        flashfetchSupport = true;
+        imageSupport = true;
+        openclSupport = true;
+        openglSupport = true;
+        sqliteSupport = true;
+        terminalSupport = true;
+        vulkanSupport = true;
       })
       dua
       dust
