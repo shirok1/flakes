@@ -15,6 +15,8 @@
     ./hardware-configuration.nix
 
     ../../fragments/bbr.nix
+    ../../fragments/box64.nix
+    ../../fragments/fex.nix
     ../../fragments/lix.nix
     ../../fragments/nh.nix
     ../../fragments/nix-settings.nix
