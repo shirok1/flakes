@@ -274,6 +274,7 @@
       "script ui" = "!include scripts.yaml";
     };
     customComponents = with pkgs.home-assistant-custom-components; [
+      pkgs.shirok1.tasmota-irhvac
       xiaomi_home
     ];
   };
