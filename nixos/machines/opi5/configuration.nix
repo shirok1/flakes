@@ -14,7 +14,6 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
 
-    ../../fragments/lix.nix
     ../../fragments/nh.nix
     ../../fragments/nix-settings.nix
     ../../fragments/tfo.nix
