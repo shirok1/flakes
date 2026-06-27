@@ -505,6 +505,7 @@
       };
     };
     customComponents = with pkgs.home-assistant-custom-components; [
+      pkgs.shirok1.hasscc-tianqi
       (xiaomi_home.overrideAttrs (oldAttrs: {
         # src = inputs.ha-xiaomi-home;
         src = pkgs.fetchFromGitHub {
