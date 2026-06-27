@@ -5,41 +5,60 @@
   fetchFromGitHub,
   buildFHSEnv,
   writeShellScript,
+  buildNpmPackage,
+  nodejs,
+  makeWrapper,
 }:
 
 let
   pname = "asphyxia";
-  version = "1.50d";
+  version = "v1.60b";
+in
+buildNpmPackage {
+  inherit pname version;
 
-  platformMap = {
-    "x86_64-linux" = "linux-x64";
-    "aarch64-linux" = "arm64";
-    "armv7l-linux" = "armv7";
+  src = fetchFromGitHub {
+    owner = "asphyxia-core";
+    repo = "core";
+    rev = version;
+    sha256 = "sha256-bRgMLvyPF5fIr2NaruwB+oY2ItZ7Ulo0muFj9BH3j38=";
   };
 
-  system = stdenv.hostPlatform.system;
+  npmDepsHash = "sha256-/wFg4fZL2CBO/XKHbsat28Bk1IzlPtFta2sJlShw89U=";
 
-  platform = platformMap.${system} or (throw "Unsupported platform: ${system}");
+  nativeBuildInputs = [ makeWrapper ];
 
-  url = "https://github.com/asphyxia-core/asphyxia-core.github.io/releases/download/v${version}/asphyxia-core-${platform}.zip";
+  dontNpmBuild = true;
 
-  binaryName = if system == "x86_64-linux" then "asphyxia-core" else "asphyxia-core-${platform}";
+  postPatch = ''
+    substituteInPlace src/utils/EamuseIO.ts \
+      --replace-fail \
+      "export const ASSETS_PATH = path.join(pkg ? __dirname : \`../build-env\`, 'assets');" \
+      "export const ASSETS_PATH = path.join('$out/share/asphyxia', 'assets');"
+  '';
 
-  # to get the hash, open nix repl
-  # pkgs = import <nixpkgs> {}
-  # builtins.readDir (pkgs.fetchzip { url = "https://github.com/asphyxia-core/asphyxia-core.github.io/releases/download/v1.50d/asphyxia-core-arm64.zip"; })
-  sha256s = {
-    "x86_64-linux" = "sha256-w6Ft8zyuTXU8eW7w1QrzO+O7vaTVe3iqtfKF4uThmlY=";
-    "aarch64-linux" = "sha256-DmAxiDYEvv/3k1IxIfnLutENOHHKSk9lz1TkK2cwlSo=";
-    "armv7l-linux" = "sha256-GW2EMmGR/xKJhbQ6gFcyyZYj/9WUu2CAZI3FQarlW0M=";
-  };
+  buildPhase = ''
+    runHook preBuild
 
-  sha256 = sha256s.${system};
+    npx --no-install tsc
 
-  src = fetchzip {
-    inherit url sha256;
-    stripRoot = false;
-  };
+    runHook postBuild
+  '';
+
+  installPhase = ''
+    runHook preInstall
+
+    mkdir -p $out/lib/asphyxia
+    mkdir -p $out/share/asphyxia
+
+    cp -r dist package.json node_modules plugins $out/lib/asphyxia/
+    cp -r build-env/assets $out/share/asphyxia/
+
+    makeWrapper ${nodejs}/bin/node $out/bin/asphyxia \
+      --add-flags "$out/lib/asphyxia/dist/AsphyxiaCore.js"
+
+    runHook postInstall
+  '';
 
   pluginSrc = fetchFromGitHub {
     owner = "asphyxia-core";
@@ -80,18 +99,8 @@ let
   meta = with lib; {
     description = "This is a “e-amuse emulator”";
     homepage = "https://asphyxia-core.github.io/";
-    # license = licenses.unfreeRedistributable;
+    license = licenses.gpl3Only;
     sourceProvenance = [ sourceTypes.binaryNativeCode ];
-    platforms = builtins.attrNames platformMap;
     mainProgram = pname;
   };
-in
-buildFHSEnv {
-  inherit pname version meta;
-
-  runScript = writeShellScript "${pname}-bwrap" ''
-    ln --symbolic --force ${src}/${binaryName} ./asphyxia
-    ln --symbolic --force --no-target-directory ${plugins} ./plugins
-    exec ./asphyxia "$@"
-  '';
 }
