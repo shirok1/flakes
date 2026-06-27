@@ -518,6 +518,17 @@
     ];
   };
 
+  services.mosquitto = {
+    enable = true;
+    listeners = [
+      {
+        acl = [ "pattern readwrite #" ];
+        omitPasswordAuth = true;
+        settings.allow_anonymous = true;
+      }
+    ];
+  };
+
   services.jellyfin = {
     enable = true;
     openFirewall = true;
@@ -583,6 +594,7 @@
   networking.firewall.allowedTCPPorts = [
     80
     443
+    1883 # MQTT
     5970
     8080
     8234
