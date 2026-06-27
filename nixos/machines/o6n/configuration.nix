@@ -53,6 +53,13 @@
           TransmitHashPolicy = "layer3+4";
         };
       };
+      "20-vm0" = {
+        netdevConfig = {
+          Kind = "macvtap";
+          Name = "vm0";
+          MACAddress = "00:48:54:20:b7:ff";
+        };
+      };
     };
     networks = {
       "30-r8169" = {
@@ -66,6 +73,7 @@
           IPv6AcceptRA = true;
         };
         linkConfig.RequiredForOnline = "routable";
+        macvtap = [ "vm0" ];
       };
     };
   };
