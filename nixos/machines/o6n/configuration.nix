@@ -224,8 +224,10 @@
     tmux
     zellij
     compose2nix
-    nixfmt
-    nixfmt-tree
+    nixfmt-rs
+    (nixfmt-tree.override {
+      runtimeInputs = [ nixfmt-rs ];
+    })
     binutils
     patchelf
     libtree
