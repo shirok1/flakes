@@ -206,6 +206,8 @@
         ${box64}/bin/box64 ${shirok1-x86_64.stata.override { ignoreCurl = true; }}/stata-mp "$@"
       '')
       llm-agents.codex
+      llm-agents.claude-code
+      llm-agents.herdr
     ];
   };
 
