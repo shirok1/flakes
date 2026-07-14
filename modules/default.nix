@@ -5,6 +5,7 @@
 }:
 
 {
+  edk2-cix = importApply ./edk2-cix.nix { inherit localFlake withSystem; };
   msd-lite = importApply ./msd-lite.nix { inherit localFlake withSystem; };
   osmo-fl2k = importApply ./osmo-fl2k.nix { inherit localFlake withSystem; };
   peerbanhelper = importApply ./peerbanhelper.nix { inherit localFlake withSystem; };
