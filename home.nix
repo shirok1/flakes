@@ -63,6 +63,7 @@
   };
 
   programs.fzf.enable = true;
+  programs.fzf.historyWidget.command = "";
 
   programs.gitui.enable = true;
 
