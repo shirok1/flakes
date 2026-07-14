@@ -565,6 +565,7 @@
     settings = {
       listen = "0.0.0.0:13831";
       dns-ip-preference = "default";
+      mode = "unshaped";
     };
     sops.psk = "snell/psk";
   };
