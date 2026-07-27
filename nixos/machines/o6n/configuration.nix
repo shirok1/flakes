@@ -597,7 +597,7 @@
     ];
   };
 
-  services.osmo-fl2k.enable = true;
+  programs.osmo-fl2k.enable = true;
 
   systemd.user.services.mihomo = {
     enable = true;
