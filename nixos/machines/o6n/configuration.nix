@@ -160,17 +160,6 @@
       nurl
       nix-init
       gh
-      (fastfetch.minimal.override {
-        audioSupport = true;
-        dbusSupport = true;
-        flashfetchSupport = true;
-        imageSupport = true;
-        openclSupport = true;
-        openglSupport = true;
-        sqliteSupport = true;
-        terminalSupport = true;
-        vulkanSupport = true;
-      })
       dua
       dust
       zoxide
