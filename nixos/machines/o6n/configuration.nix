@@ -194,6 +194,16 @@
 
         ${box64}/bin/box64 ${shirok1-x86_64.stata.override { ignoreCurl = true; }}/stata-mp "$@"
       '')
+      nodejs
+      ffmpeg
+      mosh
+      tsshd
+      unzip
+      upx
+      bun
+      fd
+      p7zip
+      file
       llm-agents.codex
       llm-agents.claude-code
       llm-agents.opencode
@@ -241,6 +251,9 @@
     patchelf
     libtree
     ghostty.terminfo
+    lsof
+    jdupes
+    (lib.getBin pkgs.elfutils)
     uv
   ];
 
