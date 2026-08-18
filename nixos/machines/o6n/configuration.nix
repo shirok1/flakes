@@ -199,6 +199,17 @@
       llm-agents.opencode
       llm-agents.herdr
       llm-agents.skills
+
+      (ghidra.withExtensions (
+        p: with p; [
+          findcrypt
+          ghidra-firmware-utils
+          ghidraninja-ghidra-scripts
+          lightkeeper
+          ret-sync
+          ghidra-golanganalyzerextension
+        ]
+      ))
     ];
   };
 
