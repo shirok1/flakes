@@ -241,7 +241,10 @@
     patchelf
     libtree
     ghostty.terminfo
+    uv
   ];
+
+  programs.nix-ld.enable = true;
 
   environment.etc."vuetorrent".source = "${pkgs.vuetorrent}/share/vuetorrent";
 
