@@ -556,6 +556,32 @@
           data.payload = ''{"Protocol":"COOLIX","Bits":24,"Data":"0xB9F509","DataLSB":"0x9DAF90"}'';
         };
       };
+      template = [
+        {
+          fan = [
+            {
+              default_entity_id = "fan.ir_fan";
+              name = "格力落地扇";
+              unique_id = "517d9c34-2f9c-4364-928f-b57449a71f5b";
+              optimistic = true;
+              turn_on.action = "script.ir_fan_on_off";
+              turn_off.action = "script.ir_fan_on_off";
+              set_oscillating.action = "script.ir_fan_swing";
+            }
+          ];
+        }
+        {
+          switch = [
+            {
+              name = "空调屏显";
+              unique_id = "db4fe1d1-c4d8-4218-bf1d-6353a933a3e3";
+              optimistic = true;
+              turn_on.action = "script.ir_ac_light";
+              turn_off.action = "script.ir_ac_light";
+            }
+          ];
+        }
+      ];
     };
     customComponents = with pkgs.home-assistant-custom-components; [
       pkgs.shirok1.hasscc-tianqi
