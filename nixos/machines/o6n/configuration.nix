@@ -644,7 +644,7 @@
     settings.host = "0.0.0.0";
     secretFile = config.sops.secrets."qui/secret".path;
   };
-  sops.secrets."qui/secret" = {};
+  sops.secrets."qui/secret" = { };
 
   services.qbittorrent-clientblocker = {
     enable = false;
