@@ -517,6 +517,45 @@
           "::1"
         ];
       };
+
+      script = {
+        ir_fan_on_off.alias = "落地扇开关 IR";
+        ir_fan_on_off.sequence = {
+          service = "mqtt.publish";
+          data.topic = "cmnd/tasmota_5E6E7B/IrSend";
+          data.payload = ''{"Protocol":"SYMPHONY","Bits":12,"Data":"0xD81","DataLSB":"0xB081"}'';
+        };
+        ir_fan_plus.alias = "落地扇加 IR";
+        ir_fan_plus.sequence = {
+          service = "mqtt.publish";
+          data.topic = "cmnd/tasmota_5E6E7B/IrSend";
+          data.payload = ''{"Protocol":"SYMPHONY","Bits":12,"Data":"0xDC3","DataLSB":"0xB0C3"}'';
+        };
+        ir_fan_minus.alias = "落地扇减 IR";
+        ir_fan_minus.sequence = {
+          service = "mqtt.publish";
+          data.topic = "cmnd/tasmota_5E6E7B/IrSend";
+          data.payload = ''{"Protocol":"SYMPHONY","Bits":12,"Data":"0xDC6","DataLSB":"0xB063"}'';
+        };
+        ir_fan_swing.alias = "落地扇摇头 IR";
+        ir_fan_swing.sequence = {
+          service = "mqtt.publish";
+          data.topic = "cmnd/tasmota_5E6E7B/IrSend";
+          data.payload = ''{"Protocol":"SYMPHONY","Bits":12,"Data":"0xD90","DataLSB":"0xB009"}'';
+        };
+        ir_fan_mode.alias = "落地扇模式 IR";
+        ir_fan_mode.sequence = {
+          service = "mqtt.publish";
+          data.topic = "cmnd/tasmota_5E6E7B/IrSend";
+          data.payload = ''{"Protocol":"SYMPHONY","Bits":12,"Data":"0xD84","DataLSB":"0xB021"}'';
+        };
+        ir_ac_light.alias = "空调屏显 IR";
+        ir_ac_light.sequence = {
+          service = "mqtt.publish";
+          data.topic = "cmnd/tasmota_5E6E7B/IrSend";
+          data.payload = ''{"Protocol":"COOLIX","Bits":24,"Data":"0xB9F509","DataLSB":"0x9DAF90"}'';
+        };
+      };
     };
     customComponents = with pkgs.home-assistant-custom-components; [
       pkgs.shirok1.hasscc-tianqi
