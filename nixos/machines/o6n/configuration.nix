@@ -255,6 +255,7 @@
   # };
   programs.zsh.enable = true;
   programs.fish.enable = true;
+  programs.fish.generateCompletions = false;
 
   virtualisation.docker = {
     enable = true;
