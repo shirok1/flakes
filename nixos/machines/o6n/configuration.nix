@@ -496,6 +496,7 @@
       "mqtt_json"
       "mqtt_room"
       "mqtt_statestream"
+      "openai_conversation"
       "ping"
       "qbittorrent"
       "sonos"
@@ -718,6 +719,13 @@
       }))
       pkgs.shirok1.zuyan9-ha-cuk-ble
     ];
+  };
+  systemd.services.home-assistant = {
+    serviceConfig = {
+      Environment = [
+        "OPENAI_BASE_URL=https://api.deepseek.com/v1"
+      ];
+    };
   };
 
   services.mosquitto = {
