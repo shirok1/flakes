@@ -171,18 +171,6 @@
       gitui
       dive
 
-      (writeShellScriptBin "FutuOpenD" ''
-        export LD_LIBRARY_PATH="${
-          lib.makeLibraryPath [
-            # libgcc.lib
-            zlib
-            curl
-            openssl
-          ]
-        }''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-
-        ${box64}/bin/box64 ${shirok1-x86_64.futu-opend.override { ignoreCurl = true; }}/bin/FutuOpenD "$@"
-      '')
       (writeShellScriptBin "stata-mp" ''
         export LD_LIBRARY_PATH="${
           lib.makeLibraryPath [
@@ -255,6 +243,7 @@
     jdupes
     (lib.getBin pkgs.elfutils)
     uv
+    shirok1.futu-opend-rs
   ];
 
   programs.nix-ld.enable = true;
