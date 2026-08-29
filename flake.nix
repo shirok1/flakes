@@ -119,6 +119,7 @@
                       };
                     };
                   }
+                  self.nixosModules.cix-npu-driver
                   self.nixosModules.edk2-cix
                   self.nixosModules.osmo-fl2k
                   self.nixosModules.peerbanhelper

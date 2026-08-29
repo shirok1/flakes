@@ -35,6 +35,10 @@
 
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.cix-npu-driver = {
+    enable = true;
+    enableDevfreq = false;
+  };
 
   networking.hostName = "nixo6n"; # Define your hostname.
 
