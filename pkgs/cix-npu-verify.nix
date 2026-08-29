@@ -42,7 +42,10 @@ stdenv.mkDerivation {
 
   meta = {
     description = "Validate repeated CIX NPU inference against golden outputs";
-    license = lib.licenses.mit;
+    license = [
+      lib.licenses.mit
+      lib.licenses.unfreeRedistributable
+    ];
     platforms = [ "aarch64-linux" ];
     mainProgram = "cix-npu-verify";
   };
