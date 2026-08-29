@@ -6,7 +6,7 @@
   quilt,
 }:
 
-stdenv.mkDerivation rec {
+stdenv.mkDerivation (finalAttrs: {
   pname = "cix-npu-driver";
   version = "6.1.0";
 
@@ -40,7 +40,7 @@ stdenv.mkDerivation rec {
         BUILD_AIPU_VERSION_KMD=BUILD_ZHOUYI_V3 \
         BUILD_TARGET_PLATFORM_KMD=BUILD_PLATFORM_SKY1 \
         BUILD_NPU_DEVFREQ=y \
-        COMPASS_DRV_BTENVAR_KMD_VERSION=${version}
+        COMPASS_DRV_BTENVAR_KMD_VERSION=${finalAttrs.version}
 
     runHook postBuild
   '';
@@ -62,4 +62,4 @@ stdenv.mkDerivation rec {
     license = lib.licenses.gpl2Only;
     platforms = lib.platforms.linux;
   };
-}
+})
