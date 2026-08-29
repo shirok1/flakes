@@ -9,13 +9,14 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "cix-npu-driver";
-  version = "6.1.0";
+  version = "6.2.0";
 
   src = fetchFromGitHub {
     owner = "cixtech";
     repo = "cix_opensource__npu_driver";
-    rev = "193d3650645b1d3de9794aa024675c755d864d57";
-    hash = "sha256-eq95TOZwG7lisyq5koSaoRK4QB+QVQcgDJj+3Ekgf2s=";
+    # tracking cix_mainline_dev branch
+    rev = "31ee26f0b5f768d20d1fea65c2360eed7303a0a1";
+    hash = "sha256-4ba2tk2c26OEjFW5TrmiMJzM+EcKso31EEhV9hRtdjw=";
   };
 
   hardeningDisable = [
@@ -26,7 +27,9 @@ stdenv.mkDerivation (finalAttrs: {
 
   patchPhase = ''
     runHook prePatch
-    QUILT_PATCHES=debian/patches quilt push -a
+    if [[ -s debian/patches/series ]]; then
+      QUILT_PATCHES=debian/patches quilt push -a
+    fi
     substituteInPlace driver/Makefile \
       --replace-fail '$(PWD)' '$(src)'
     runHook postPatch
