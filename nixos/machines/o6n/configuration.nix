@@ -200,6 +200,7 @@
       file
       llm-agents.codex
       llm-agents.claude-code
+      llm-agents.dsh
       llm-agents.opencode
       llm-agents.herdr
       llm-agents.skills
