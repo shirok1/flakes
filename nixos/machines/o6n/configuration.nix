@@ -158,6 +158,8 @@
       fd
       p7zip
       file
+      esphome
+      esphome-device-builder
       llm-agents.codex
       llm-agents.claude-code
       llm-agents.dsh
