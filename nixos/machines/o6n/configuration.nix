@@ -16,6 +16,7 @@
     ./home-assistant/default.nix
     ./ingress.nix
     ./networking.nix
+    ./shairport.nix
 
     ../../fragments/bbr.nix
     ../../fragments/box64.nix
