@@ -12,8 +12,8 @@ buildHomeAssistantComponent {
   src = fetchFromGitHub {
     owner = "shirok1";
     repo = "hass-xiaomi-weather";
-    rev = "75f7664bc0669557cba9d4dac3eb2db2804864c8";
-    hash = "sha256-0oiPlyPfvBZy1h8zOrpzBZzFTgixpGNPpjEKb16Aksw=";
+    rev = "bc119fff7deeb13d59cfedcf72eedf08ba726ec7";
+    hash = "sha256-X4Alinka+ldcrFZdy2bEz+MKjcJ1gCuiX2D7NbeZHls=";
   };
 
   meta = {
