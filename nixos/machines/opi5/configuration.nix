@@ -13,6 +13,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./shairport.nix
 
     ../../fragments/nh.nix
     ../../fragments/nix-settings.nix
@@ -77,6 +78,7 @@
   #   enable = true;
   #   pulse.enable = true;
   # };
+  hardware.alsa.enablePersistence = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
