@@ -232,7 +232,6 @@
 
   services.home-assistant = {
     enable = true;
-    openFirewall = true;
     extraComponents = [
       # Components required to complete the onboarding
       "analytics"
@@ -639,6 +638,7 @@
     1883
     7088
     8080
+    8123
     13831
     21064 # Home Assistant HomeKit Bridge
     22437 # qBittorrent
