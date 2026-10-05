@@ -82,6 +82,7 @@
       pkgs.shirok1.hasscc-tianqi
       pkgs.shirok1.hass-lumi-curtain
       pkgs.shirok1.hass-xiaomi-weather
+      pkgs.shirok1.hass-haier-yunos-tv
       pkgs.shirok1.hass-zhejiang-typhoon
       (pkgs.shirok1.tasmota-irhvac.overrideAttrs (oldAttrs: {
         src = pkgs.fetchFromGitHub {
