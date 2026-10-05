@@ -1,7 +1,7 @@
 { ... }:
 
 {
-  services.home-assistant.config = {
+  services.home-assistant.config.homeassistant.packages.ir = {
     script = {
       ir_fan_on_off.alias = "落地扇开关 IR";
       ir_fan_on_off.sequence = {
