@@ -100,6 +100,8 @@
         };
       }))
       pkgs.shirok1.zuyan9-ha-cuk-ble
+      pkgs.shirok1.bemfa-behome
+      pkgs.shirok1.bemfa-cloud-ha
     ];
   };
   sops.secrets."snmp/auth_key" = { };
