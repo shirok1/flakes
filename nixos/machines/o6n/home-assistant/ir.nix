@@ -167,6 +167,7 @@
         humidity_sensor = "sensor.wo_shi_daikin_air_sensor_humidity_sensor";
 
         vendor = "COOLIX";
+        hvac_model = "1010"; # RN02S13(2HS)
         mqtt_delay = 0.0;
 
         min_temp = 16;
@@ -174,7 +175,8 @@
         target_temp = 26;
         initial_operation_mode = "off";
         away_temp = 24;
-        precision = 1; # 0.5 fail to send
+        precision = 0.5;
+        temp_step = 0.5;
 
         supported_modes = [
           "off"
@@ -186,11 +188,11 @@
         ];
 
         supported_fan_speeds = [
-          "auto" # Auto
-          "min" # 20%
-          "low" # 40%
-          "medium" # 60%
-          "high" # 80%
+          "auto"
+          "min" # 1%
+          "low" # 20%
+          "medium" # 40%
+          "high" # 60%
           "max" # 100%
         ];
 
@@ -200,20 +202,6 @@
           "horizontal"
           "both"
         ];
-
-        set_swingv = {
-          "if".condition = "template";
-          "if".value_template = "{{ swingv != 'off' }}";
-          "then".action = "script.ir_ac_swing_v_on";
-          "else".action = "script.ir_ac_swing_v_off";
-        };
-
-        set_swingh = {
-          "if".condition = "template";
-          "if".value_template = "{{ swingh != 'off' }}";
-          "then".action = "script.ir_ac_swing_v_on";
-          "else".action = "script.ir_ac_swing_h_off";
-        };
       }
     ];
   };
