@@ -29,6 +29,7 @@
       "esphome"
       "homekit"
       "homekit_controller"
+      "midea"
       "mqtt"
       "mqtt_eventstream"
       "mqtt_json"

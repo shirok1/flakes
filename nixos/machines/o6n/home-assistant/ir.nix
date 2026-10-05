@@ -153,56 +153,5 @@
         ];
       }
     ];
-    climate = [
-      {
-        platform = "tasmota_irhvac";
-        name = "美的空调";
-        unique_id = "7798482a-d424-4824-a3ec-7a31e8d3d26f";
-
-        command_topic = "cmnd/tasmota_5E6E7B/IRHVAC";
-        state_topic = "stat/tasmota_5E6E7B/RESULT";
-        availability_topic = "tele/tasmota_5E6E7B/LWT";
-
-        temperature_sensor = "sensor.wo_shi_daikin_air_sensor_temperature_sensor";
-        humidity_sensor = "sensor.wo_shi_daikin_air_sensor_humidity_sensor";
-
-        vendor = "COOLIX";
-        hvac_model = "1010"; # RN02S13(2HS)
-        mqtt_delay = 0.0;
-
-        min_temp = 16;
-        max_temp = 30;
-        target_temp = 26;
-        initial_operation_mode = "off";
-        away_temp = 24;
-        precision = 0.5;
-        temp_step = 0.5;
-
-        supported_modes = [
-          "off"
-          "auto"
-          "cool"
-          "dry"
-          "heat"
-          "fan_only"
-        ];
-
-        supported_fan_speeds = [
-          "auto"
-          "min" # 1%
-          "low" # 20%
-          "medium" # 40%
-          "high" # 60%
-          "max" # 100%
-        ];
-
-        supported_swing_list = [
-          "off"
-          "vertical"
-          "horizontal"
-          "both"
-        ];
-      }
-    ];
   };
 }
