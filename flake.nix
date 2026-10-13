@@ -108,7 +108,6 @@
                         };
                       }
 
-                      inputs.daeuniverse.nixosModules.dae
                       inputs.daeuniverse.nixosModules.daed
 
                       catppuccin.nixosModules.catppuccin
